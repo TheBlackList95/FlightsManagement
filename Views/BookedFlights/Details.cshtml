@@ -1,0 +1,164 @@
+﻿@model FlightDetailsViewModel
+
+<div class="page-title-container">
+    <div class="container">
+        <div class="page-title pull-left">
+            <h2 class="entry-title">Détails vol de votre réservation</h2>
+        </div>
+
+        <ul class="breadcrumbs pull-right">
+            <li><a asp-controller="Flights" asp-action="Index">Accueil</a></li>
+            <li><a asp-controller="BookedFlights" asp-action="Index">Mes réservations</a></li>
+            <li class="active">Détails vol</li>
+        </ul>
+    </div>
+</div>
+
+<div class="container flight-detail-page">
+    <div class="row">
+        <div id="main" class="col-md-9">
+            <div id="flight-features" class="tab-container">
+                <ul class="tabs">
+                    <li class="active"><a href="#flight-details" data-toggle="tab">Détails du vol</a></li>
+                </ul>
+
+                <div class="tab-content">
+                    <div class="tab-pane fade in active" id="flight-details">
+                        <h2>Détails de la ligne</h2>
+
+                        <div class="intro table-wrapper full-width hidden-table-sm box">
+                            <div class="col-md-4 table-cell travelo-box">
+                                <dl class="term-description">
+                                    <dt>Classe vol</dt>
+                                    <dd>@Model.FlightType</dd>
+                                    <dt>Options</dt>
+                                    <dd>@(Model.Amenities.Count > 0 ? "Disponibles" : "Pas disponibles")</dd>
+                                    <dt>Nb enfants</dt>
+                                    <dd>@Model.NbChildren</dd>
+                                    <dt>Nb adultes</dt>
+                                    <dd>@Model.NbAdults</dd>
+                                    <dt>Bagage</dt>
+                                    <dd>@Model.QuantityBaggageInKg Kg</dd>
+                                    <dt>Prix basique</dt>
+                                    <dd>@Model.BasicPrice Dh</dd>
+                                    <dt>Prix total</dt>
+                                    <dd>@Model.TotalPrice Dh</dd>
+                                </dl>
+                            </div>
+
+                            <div class="col-md-8 table-cell flight-line">
+                                <div class="detailed-features booking-details">
+                                    <div class="travelo-box text-center">
+                                        <h4 class="box-title">@Model.FligthName<small>Vol aller simple</small></h4>
+                                    </div>
+
+                                    <div class="table-wrapper flights">
+                                        <div class="table-row first-flight">
+                                            <div class="table-cell timing-detail">
+                                                <div class="timing">
+                                                    <div class="check-in">
+                                                        <div class="icon" style="transform: rotate(-25deg); font-size: 20px">
+                                                            <i class="soap-icon-plane-right yellow-color"></i>
+                                                        </div>
+
+                                                        <label>@Model.StartAirportName</label>
+                                                        <label class="flight-nature">(Décollage)</label>
+                                                        <span style="margin-top:10px">@Model.FlightTakeOffDate</span>
+                                                    </div>
+
+                                                    <div class="duration text-center">
+                                                        <i class="soap-icon-clock"></i>
+                                                        <span>@(Model.CompleteFlightTime.Hours + "h " + Model.CompleteFlightTime.Minutes + "m")</span>
+                                                    </div>
+
+                                                    <div class="check-out">
+                                                        <div class="icon" style="transform: rotate(25deg); font-size: 20px">
+                                                            <i class="soap-icon-plane-right yellow-color"></i>
+                                                        </div>
+
+                                                        <label>@Model.EndAirportName</label>
+                                                        <label class="flight-nature">(Atterrissage)</label>
+                                                        <span style="margin-top:10px">@Model.FlightLandingDate</span>
+                                                    </div>
+                                                </div>
+                                                <label class="layover">@Model.DistanceBetweenAirports Km</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="div-amenities" id="inflight-features">
+                            <h2>Les accomodations offertes</h2>
+
+                            <ul class="amenities clearfix style1 box">
+                                @foreach (var item in Model.Amenities)
+                                {
+                                    <li class="col-md-4 col-sm-6">
+                                        <div class="icon-box style1">
+                                            <i class="@item.VolOption.Icone @item.IsChecked"></i> @item.VolOption.Nom
+                                        </div>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+
+                        <div class="long-description">
+                            <h2>À propos de l'agence de voyage</h2>
+
+                            <p class="text-justify" style="line-height: 1.8">@Model.AgencyDescription</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="sidebar col-md-3">
+            <article class="detailed-logo">
+                <figure>
+                    <img width="87" height="57" src="~/images/agences/@Model.AgencyImage" alt="">
+                </figure>
+
+                <div class="details">
+                    <h2 class="box-title text-center">
+                        <span>@Model.AgencyName</span>
+                        <small class="book-flight-title">Vol aller simple</small>
+                    </h2>
+
+                    <span class="price clearfix">
+                        <small class="pull-left">Prix total</small>
+                        <span class="pull-right">@Model.TotalPrice Dh</span>
+                    </span>
+
+                    <div class="informations">
+                        <span class="price clearfix">
+                            <small class="pull-left">Avion</small>
+                            <span class="pull-right">@Model.AirplaneName</span>
+                        </span>
+
+                        <span class="price clearfix">
+                            <small class="pull-left">Consommation</small>
+                            <span class="pull-right">@Model.AirplaneConsumption L/100Km</span>
+                        </span>
+
+                        <span class="price clearfix">
+                            <small class="pull-left">NB passagers</small>
+                            <span class="pull-right">@Model.AirplaneNbPassengers</span>
+                        </span>
+
+                        <span class="price clearfix">
+                            <small class="pull-left">Effort décollage</small>
+                            <span class="pull-right">@(Model.AirplaneTakeOffPower + "lb")</span>
+                        </span>
+
+                        <span class="price clearfix">
+                            <small class="pull-left">kérosène calculée</small>
+                            <span class="pull-right">@(Model.AirplaneKerosenQuantity + "L")</span>
+                        </span>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </div>
+</div>

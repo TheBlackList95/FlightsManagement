@@ -1,0 +1,107 @@
+﻿@model FlightViewModel
+<!-- Modal -->
+<div class="modal fade" id="Modal-Booking" tabindex="-1" data-backdrop="static" data-keyboard="false" 
+     role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document"></div>
+</div>
+
+<div class="container">
+    <div id="main">
+        <!-- Form to search for flights -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="search-tab-content">
+                    <div class="tab-pane fade active in" id="flights-tab">
+                        <form asp-action="Index"
+                              method="post"
+                              data-ajax="true"
+                              data-ajax-method="post"
+                              data-ajax-update="#flights-container"
+                              data-ajax-mode="replace"
+                              data-ajax-url="@Url.Action("GetAvailableFlights")"
+                              data-ajax-begin="onGetAllFlightsBeginRequest"
+                              data-ajax-complete="onGetAllFlightsCompleteRequest">
+
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Partir de</label>
+
+                                        <div class="selector">
+                                            <select id="StartAirport" asp-for="@Model.SearchFlight.StartAirport" asp-items="Model.Airports" class="full-width">
+                                                <option value="">-- D'où partez-vous ? --</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Atterrir sur</label>
+
+                                        <div class="selector">
+                                            <select id="EndAirport" asp-for="@Model.SearchFlight.EndAirport" asp-items="Model.Airports" class="full-width">
+                                                <option value="">-- Où allez-vous ? --</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label for="">Quand partez-vous ?</label>
+                                        <input id="TravelDate" type="date" asp-for="@Model.SearchFlight.TravelDate" class="input-text full-width" placeholder="mm/dd/yy">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <label>&nbsp;</label>
+                                    <button id="btn-search-flight" type="submit" class="full-width icon-check">Rechercher</button>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12" id="div-errors"></div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Page content -->
+        <div class="row">
+            <!-- Side bar to include any data you want -->
+            <div class="col-sm-4 col-md-3">
+                <!-- Side bar -->
+                <div class="toggle-container filters-container">
+                    <div class="panel-sidebar text-center"></div>
+                </div>
+            </div>
+
+            <!-- Page details : Here we show all available flights in database -->
+            <div class="col-sm-8 col-md-9">
+                <div class="sort-by-section clearfix box block-sm content-marquee">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <marquee>
+                                Trouver des billets d’avion pas chers pour votre prochain weekend ou vos prochaines vacances,
+                                c’est facile chez nous ! Pour partir pas cher, rien de plus simple : il vous suffit d’indiquer l'aeroport de départ,
+                                l'aeroport de destination et la date durant laquelle vous souhaitez voyager.
+                            </marquee>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flight-list listing-style3 flight" id="flights-container">
+                    <!-- Show flights based on partial view to make code organized & easier to be read -->
+                    <partial name="Partials/_FlightItem" model="@Model.Flights" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/Scripts/flights-async-requests.js"></script>
+}

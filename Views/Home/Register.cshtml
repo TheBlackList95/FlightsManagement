@@ -1,0 +1,45 @@
+﻿@model RegisterViewModel
+@{
+    Layout = "Shared/_LayoutLogin";
+}
+
+<div class="wrap-login100 p-t-50 p-b-90">
+    <form method="post" asp-controller="Home" asp-action="Register" class="login100-form">
+        <span class="login100-form-title p-b-51">
+            <img src="~/images/logo.png" width="250" alt="">
+        </span>
+
+        <div asp-validation-summary="All"></div>
+
+        <span asp-validation-for="FirstName" class="small text-danger"></span>
+        <div class="wrap-input100 m-b-16">
+            <input type="text" class="input100" asp-for="FirstName" placeholder="Entrez votre prénom">
+        </div>
+
+        <span asp-validation-for="LastName" class="small text-danger"></span>
+        <div class="wrap-input100 m-b-16">
+            <input type="text" class="input100" asp-for="LastName" placeholder="Entrez votre nom">
+        </div>
+
+        <span asp-validation-for="Email" class="small text-danger"></span>
+        <div class="wrap-input100 m-b-16">
+            <input type="text" class="input100" asp-for="Email" placeholder="Entrez votre email">
+        </div>
+
+        <span asp-validation-for="Password" class="small text-danger"></span>
+        <div class="wrap-input100 m-b-16">
+            <input type="password" class="input100" asp-for="Password" placeholder="Entrez votre mot de passe">
+        </div>
+
+        <span asp-validation-for="ConfirmPassword" class="small text-danger"></span>
+        <div class="wrap-input100 m-b-16">
+            <input type="password" class="input100" asp-for="ConfirmPassword" placeholder="Répétez votre mot de passe">
+        </div>
+
+        <div class="container-login100-form-btn m-t-17">
+            <button type="submit" class="login100-form-btn">
+                Créer votre compte
+            </button>
+        </div>
+    </form>
+</div>

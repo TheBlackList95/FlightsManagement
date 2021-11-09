@@ -1,0 +1,79 @@
+﻿@model IEnumerable<SingleFlightModel>
+
+@if (Model.Count() > 0)
+{
+    @foreach (var flight in Model)
+    {
+        //Calculation of total time of a flight
+        var timeStart = new TimeSpan(flight.StartDate.Hour, flight.StartDate.Minute, flight.StartDate.Second);
+        var timeEnd = new TimeSpan(flight.EndDate.Hour, flight.EndDate.Minute, flight.EndDate.Second);
+        var totalTime = timeEnd - timeStart;
+
+        <div class="col-sm-6 col-lg-4">
+            <article class="box">
+                <figure>
+                    <span><img width="87" height="57" alt="" src="~/images/agences/@flight.AgenceImage"></span>
+                </figure>
+
+                <div class="details">
+                    <span class="price"><small>Prix</small>@flight.UnitPrice Dh</span>
+                    <h4 class="box-title">@flight.EndAirport.Ville.Nom<small>Aller simple</small></h4>
+
+                    <div class="time">
+                        <div class="take-off">
+                            <div class="icon"><i class="soap-icon-plane-right yellow-color"></i></div>
+                            <div>
+                                <span class="skin-color">Décollage</span><br>Le @flight.StartDate
+                            </div>
+                        </div>
+
+                        <div class="landing">
+                            <div class="icon"><i class="soap-icon-plane-right yellow-color"></i></div>
+                            <div>
+                                <span class="skin-color">Atterrissage</span><br>Le @flight.EndDate
+                            </div>
+                        </div>
+                    </div>
+
+                    <p class="duration"><span class="skin-color">Durée totale</span> @totalTime.Hours Heures, @totalTime.Minutes minutes</p>
+
+                    <div class="action">
+                        <div class="row">
+                            <div class="col-md-6">
+                                @*<a data-id="@flight.ReservedFlightId" class="button btn-small green full-width" href="">
+                                    <i class="glyphicon glyphicon-refresh"></i> Modifier
+                                </a>*@
+
+                                <a onclick="onShowReservationFormSuccessRequest('@Url.Action("EditReservation", "BookedFlights", new { reservedFlightId = flight.ReservedFlightId })')"
+                                   class="button btn-small green full-width">
+                                    <i class="glyphicon glyphicon-refresh"></i> Modifier
+                                </a>
+                            </div>
+
+                            <div class="col-md-6">
+                                <form asp-controller="BookedFlights" asp-action="Details">
+                                    <input type="hidden" name="flightId" value="@flight.Id" />
+                                    <input type="hidden" name="totalFlightTime" value="@totalTime" />
+                                    <input type="hidden" name="totalPriceToPay" value="@flight.UnitPrice" />
+
+                                    <button type="submit" class="button btn-small sky-blue1 full-width">
+                                        <i class="glyphicon glyphicon-file"></i> Détails
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+    }
+}
+else
+{
+    <div class="no-data-found text-center">
+        <div class="no-data-icon">
+            <i class="soap-icon-close" style="font-size: 80px"></i>
+        </div>
+        <h3 style=" color: #959595">Aucune réservation n'est faite pour le moment.</h3>
+    </div>
+}

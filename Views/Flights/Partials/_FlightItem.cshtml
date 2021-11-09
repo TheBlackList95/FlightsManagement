@@ -1,0 +1,99 @@
+﻿@model IEnumerable<SingleFlightModel>
+
+@if (Model.Count() > 0)
+{
+    <!-- Loop on every flight -->
+    foreach (var item in Model)
+    {
+        //Calculation of total time of a flight
+        var timeStart = new TimeSpan(item.StartDate.Hour, item.StartDate.Minute, item.StartDate.Second);
+        var timeEnd = new TimeSpan(item.EndDate.Hour, item.EndDate.Minute, item.EndDate.Second);
+        var totalTime = timeEnd - timeStart;
+
+        <!-- Show a single flight with dynamic data from InMemory database -->
+        <article class="box">
+            <!-- Flight image -->
+            <figure class="col-xs-3 col-sm-2">
+                <span><img width="94" height="90" alt="" src="~/images/agences/@item.AgenceImage"></span>
+            </figure>
+
+            <!-- Flight content -->
+            <div class="details col-xs-9 col-sm-10">
+                <div class="details-wrapper">
+                    <div class="first-row">
+                        <div>
+                            <h4 class="box-title">@item.Label<small>Vol aller simple</small></h4>
+                            <a class="text-warning">(Promotion)</a>
+
+                            <!-- Show list of amenities of the flight -->
+                            <div class="amenities">
+                                @if (item.VolOptions.Count > 0)
+                                {
+                                    foreach (var option in item.VolOptions)
+                                    {
+                                        <i class="@option circle"></i>
+                                    }
+                                }
+                            </div>
+                        </div>
+
+                        <!-- Show Flight's unit price -->
+                        <div>
+                            <span class="price"><small>PRIX DU VOL</small>@item.UnitPrice Dh</span>
+                        </div>
+                    </div>
+
+                    <div class="second-row">
+                        <div class="time">
+                            <div class="take-off col-sm-4">
+                                <div class="icon"><i class="soap-icon-plane-right yellow-color"></i></div>
+
+                                <!-- Show flight start date -->
+                                <div>
+                                    <span class="skin-color">Décollage</span><br />Le @item.StartDate
+                                </div>
+                            </div>
+
+                            <div class="landing col-sm-4">
+                                <div class="icon"><i class="soap-icon-plane-right yellow-color"></i></div>
+
+                                <!-- Show flight end date -->
+                                <div>
+                                    <span class="skin-color">Atterrissag</span><br />Le @item.EndDate
+                                </div>
+                            </div>
+
+                            <div class="total-time col-sm-4">
+                                <div class="icon"><i class="soap-icon-clock yellow-color"></i></div>
+
+                                <!-- Show the total flight time that was calculated in the script above -->
+                                <div>
+                                    <span class="skin-color">Durée totale</span><br />@totalTime.Hours heures, @totalTime.Minutes minutes
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="action">
+                            <a onclick="onShowReservationFormSuccessRequest('@Url.Action("GetPartialReservationForm", "Flights", new { FlightId= item.Id })')"
+                               class="button sky-blue1 btn-small full-width ">
+                                <i class="soap-icon-plane"></i> Réserver
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </article>
+    }
+}
+else
+{
+    <div class="no-data-found text-center">
+        <div class="no-data-icon">
+            <i class="soap-icon-close" style="font-size: 80px"></i>
+        </div>
+        <h3 style=" color: #959595">Aucun vol disponible pour le moment.</h3>
+    </div>
+}
+
+
+

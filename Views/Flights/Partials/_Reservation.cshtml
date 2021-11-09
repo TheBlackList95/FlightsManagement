@@ -1,0 +1,113 @@
+@model HandleReservationViewModel
+
+<div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Réservation du vol</h5>
+    </div>
+
+    <div id="flight-booking">
+        <form id="form-booking-flight"
+              asp-controller="Flights"
+              asp-action="CreateFlightBooking"
+              method="post"
+              data-ajax="true"
+              data-ajax-method="post"
+              data-ajax-success="onCreateBookingSuccessRequest"
+              data-ajax-failure="onCreateBookingFailureRequest">
+
+            <input type="hidden" name="FlightId" value="@Model.FlightId" />
+
+            <div class="modal-body">
+                <div class="row my-panel">
+                    <div class="col-md-12">
+                        <h3>Options standars</h3>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Classe vol</label>
+                            <select asp-for="@Model.FlightType" class="full-width">
+                                <option value="Economique">Economique</option>
+                                <option value="Business">Business</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Adultes</label>
+                                    <input asp-for="@Model.Teenagers" value="1" type="number" class="input-text full-width" placeholder="Nb adultes">
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Enfants</label>
+                                    <input asp-for="@Model.Kids" type="number" class="input-text full-width" placeholder="Nb enfants">
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Bagage en Kg</label>
+                                    <input asp-for="@Model.BaggageQuantity" type="number" class="input-text full-width" placeholder="Quantité bagage">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row my-panel">
+                    <div class="col-md-12">
+                        <h3>Options d'accomodations</h3>
+                    </div>
+
+                    <div class="col-md-12">
+                        <p class="text-justify">
+                            Le vol que vous avez choisi offre des services d'accomodations inclus, vous pouvez ajouter d'autre services supplémentaires que l'agence
+                            vous donnent à votre disposition. Le prix du vol change en fonction des services ajoutées.
+                        </p>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="row text-center">
+                            @foreach (var item in Model.Amenities)
+                            {
+                                <div class="col-md-3 col-sm-6 col-xs-6 vol-option">
+                                    <div class="pretty p-icon p-toggle p-plain">
+                                        <input type="checkbox" value="@item.Id" name="Amenity" />
+
+                                        <div class="state p-on">
+                                            <i class="@item.Icone pretty-checked"></i><br>
+                                            <label style="text-indent: 0">@item.Nom<br />(+@item.Prix Dh)</label>
+                                        </div>
+
+                                        <div class="state p-off">
+                                            <i class="@item.Icone pretty-unchecked"></i><br>
+                                            <label style="text-indent: 0">@item.Nom<br />(+@item.Prix Dh)</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="button btn-small green" data-dismiss="modal">
+                    <i class="soap-icon-longarrow-left"></i> Ignorer
+                </button>
+
+                <button type="submit" class="button btn-small sky-blue1">
+                    <i class="soap-icon-plane"></i> Réserver mon vol
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+

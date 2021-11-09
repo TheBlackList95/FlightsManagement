@@ -1,0 +1,108 @@
+﻿@inject SignInManager<IdentityUser> signInManager
+@{ 
+    var controller = ViewContext.RouteData.Values["controller"].ToString();
+    var action = ViewContext.RouteData.Values["action"].ToString();
+}
+
+<header id="header" class="navbar-static-top">
+    <div class="topnav hidden-xs">
+        <div class="container">
+            <ul class="quick-menu pull-right">
+                <li>
+                    @if (signInManager.IsSignedIn(User))
+                    {
+                        <a href="#">
+                            Bienvenue <b>@User.Identity.Name</b>
+                        </a>
+                    }
+                </li>
+            </ul>
+
+            <ul class="quick-menu pull-left">
+                @if (signInManager.IsSignedIn(User))
+                {
+                    <li><a href="@Url.Action("LogOut","Home")" class="button yellow"><i class="soap-icon-restricted"></i> Se déconnecter</a></li>
+                }
+                else
+                {
+                    <li><a href="@Url.Action("Login","Home")" class="button yellow "><i class="soap-icon-user"></i> Se conencter</a></li>
+                    <li><a href="@Url.Action("Register","Home")"><i class="soap-icon-friends"></i> S'enregistrer</a></li>
+                }
+            </ul>
+        </div>
+    </div>
+
+    <div class="main-header">
+        <a href="#mobile-menu-01" data-toggle="collapse" class="mobile-menu-toggle">
+            Mobile Menu Toggle
+        </a>
+
+        <div class="container">
+            <h1 class="logo navbar-brand">
+                <a href="#">
+                    <img asp-append-version="true" src="~/images/logo.png" alt="" />
+                </a>
+            </h1>
+
+            <nav id="main-menu" role="navigation">
+                <ul class="menu">
+                    <li class="menu-item-has-children @(controller.Equals("Flights") ? "active-link-bg" : "")">
+                        <a asp-controller="Flights" asp-action="Index" class="@(controller.Equals("Flights") ? "active-link-fg" : "")">
+                            <i class="soap-icon-grid"></i> Accueil
+                        </a>
+                    </li>
+
+                    @if (signInManager.IsSignedIn(User))
+                    {
+                        <li class="menu-item-has-children @(controller.Equals("BookedFlights") ? "active-link-bg" : "")">
+                            <a asp-controller="BookedFlights" asp-action="Index" class="@(controller.Equals("BookedFlights") ? "active-link-fg" : "")">
+                                <i class="soap-icon-plane"></i> Mes réservations</a>
+                        </li>
+                    }
+                </ul>
+            </nav>
+        </div>
+
+        <nav id="mobile-menu-01" class="mobile-menu collapse">
+            <ul id="mobile-primary-menu" class="menu">
+                <li class="menu-item-has-children">
+                    <a asp-controller="Flights" asp-action="Index">Accueil</a>
+
+                    @if (signInManager.IsSignedIn(User))
+                    {
+                        <a asp-controller="BookedFlights" asp-action="Index">Mes réservations</a>
+                    }
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <div id="travelo-login" class="travelo-login-box travelo-box">
+        <div class="row text-center">
+            <div class="col-md-12">
+                <div class="logo-title">
+                    <div class="icon-logo">
+                        <i class="soap-icon-plane-right yellow-color"></i>
+                    </div>
+                    <h4>Artza Technologies</h4>
+                </div>
+            </div>
+        </div>
+
+        <form>
+            <div class="form-group">
+                <input type="email" class="input-text full-width" placeholder="Adresse éléctronique">
+            </div>
+
+            <div class="form-group">
+                <input type="password" class="input-text full-width" placeholder="Mot de passe">
+            </div>
+
+            <div class="seperator"></div>
+
+            <div class="form-group">
+                <button type="submit" class="full-width">Se connecter</button>
+            </div>
+        </form>
+    </div>
+</header>

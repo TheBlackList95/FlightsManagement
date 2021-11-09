@@ -1,0 +1,52 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Artza | Réservation des vols en ligne</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="~/favicon.ico" type="image/x-icon">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="~/css/bootstrap.min.css" asp-append-version="true">
+    <link rel="stylesheet" href="~/css/font-awesome.min.css" asp-append-version="true">
+    <link href='https://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>
+    <link id="main-style" rel="stylesheet" href="~/css/style.css" asp-append-version="true">
+    <link rel="stylesheet" href="~/css/custom.css" asp-append-version="true">
+    <link rel="stylesheet" href="~/css/responsive.css" asp-append-version="true">
+    <link rel="stylesheet" href="~/css/pretty-checkbox.min.css" asp-append-version="true">
+    @RenderSection(name: "Styles", required: false)
+</head>
+
+    <body>
+        <div id="page-wrapper">
+            <!-- Header -->
+            <!-- Include header partial view -->
+            <partial name="Partials/_Header.cshtml" />
+
+            <!-- Page content -->
+            <section id="content">
+                @RenderBody()
+            </section>
+
+            <!-- Footer -->
+            <!-- Include header partial view -->
+            <partial name="Partials/_Footer.cshtml" />
+        </div>
+
+        <!-- Javascript -->
+        <script src="~/js/jquery-1.11.1.min.js" asp-append-version="true"></script>
+        <script src="~/js/jquery.validate.min.js"></script>
+        <script src="~/js/jquery.validate.unobtrusive.min.js"></script>
+        <script src="~/js/jquery.unobtrusive-ajax.min.js"></script>
+        <script src="~/js/modernizr.2.7.1.min.js" asp-append-version="true"></script>
+        <script src="~/js/jquery-migrate-1.2.1.min.js" asp-append-version="true"></script>
+        <script src="~/js/jquery.placeholder.js" asp-append-version="true"></script>
+        <script src="~/js/jquery-ui.1.10.4.min.js" asp-append-version="true"></script>
+        <script src="~/js/bootstrap.js" asp-append-version="true"></script>
+        <script src="~/js/theme-scripts.js" asp-append-version="true"></script>
+        <script src="~/js/scripts.js" asp-append-version="true"></script>
+        <script src="~/js/sweetalert.min.js"></script>
+        <script src="~/js/loadingoverlay.min.js"></script>
+        @RenderSection(name: "Scripts", required: false)
+    </body>
+</html>
